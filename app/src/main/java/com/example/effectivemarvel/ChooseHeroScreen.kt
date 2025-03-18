@@ -95,10 +95,12 @@ fun ChooseHeroScreen(navController: NavController) {
                         AsyncImage(
                             model = h.img_ref,
                             contentDescription = h.name,
+                            contentScale = ContentScale.FillBounds,
                             modifier = Modifier
                                 .width(270.dp)
                                 .height(550.dp)
                                 .clip(shape)
+                                .fillMaxSize()
                         )
 
                         Text(
