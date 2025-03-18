@@ -8,6 +8,7 @@ import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -27,6 +28,7 @@ import androidx.compose.ui.draw.paint
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.effectivemarvel.ui.theme.White
@@ -90,8 +92,19 @@ fun ChooseHeroScreen(navController: NavController) {
                             .height(height)
                             .fillMaxWidth()
                             .background(White, shape = shape),
-                        contentAlignment = Alignment.Center,
+                        contentAlignment = Alignment.BottomStart
                     ) {
+                        Column(modifier = Modifier
+                            .padding(start = 28.dp, bottom = 40.dp)
+                            .zIndex(1f)
+                        ) {
+                            Text(
+                            text = h.name,
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = White,
+                        )
+                        }
+
                         AsyncImage(
                             model = h.img_ref,
                             contentDescription = h.name,
@@ -102,15 +115,8 @@ fun ChooseHeroScreen(navController: NavController) {
                                 .clip(shape)
                                 .fillMaxSize()
                         )
-
-                        Text(
-                            text = h.name,
-                            style = MaterialTheme.typography.bodyLarge,
-                            modifier = Modifier.padding(vertical = 50.dp),
-                            color = White
-                        )
-
                     }
+
                 }
             }
         }
