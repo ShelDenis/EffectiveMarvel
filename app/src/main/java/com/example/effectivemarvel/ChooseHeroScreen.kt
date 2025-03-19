@@ -4,6 +4,7 @@ package com.example.effectivemarvel
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -35,12 +36,6 @@ import com.example.effectivemarvel.ui.theme.White
 
 @Composable
 fun ChooseHeroScreen(navController: NavController) {
-    var heroes: List<Hero> = listOf(Hero("Deadpool",
-        "https://iili.io/JMnAfIV.png",
-        "Please don't make the super suits green...or animated!"),
-        Hero("Iron Man", "https://iili.io/JMnuDI2.png", "I AM IRON MAN"),
-        Hero("Spider Man", "https://iili.io/JMnuyB9.png", "In iron suit"))
-
     val lazyListState = rememberLazyListState()
     val snapBehavior = rememberSnapFlingBehavior(lazyListState = lazyListState)
 
@@ -91,7 +86,9 @@ fun ChooseHeroScreen(navController: NavController) {
                         modifier = Modifier
                             .height(height)
                             .fillMaxWidth()
-                            .background(White, shape = shape),
+                            .background(White, shape = shape)
+                            .clickable {
+                                navController.navigate("hero_screen_${h.name}") },
                         contentAlignment = Alignment.BottomStart
                     ) {
                         Column(modifier = Modifier
