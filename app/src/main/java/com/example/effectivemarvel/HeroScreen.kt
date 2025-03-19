@@ -45,12 +45,38 @@ fun HeroScreen(heroName: String) {
             hDescription = h.describe
         }
     }
-
-    AsyncImage(
-        model = hRef,
-        contentDescription = heroName,
-        contentScale = ContentScale.FillBounds,
+    Box(
         modifier = Modifier
+            .fillMaxSize()
+    ) {
 
-    )
+        AsyncImage(
+            model = hRef,
+            contentDescription = heroName,
+            contentScale = ContentScale.FillBounds,
+            modifier = Modifier
+        )
+
+        Column(modifier = Modifier
+            .padding(start = 28.dp, bottom = 40.dp)
+            .zIndex(1f)
+            .align(Alignment.BottomStart)
+        ) {
+            Text(
+                text = heroName,
+                style = MaterialTheme.typography.bodyLarge,
+                color = White,
+            )
+
+            Spacer(modifier = Modifier
+                .height(20.dp))
+
+            Text(
+                text = hDescription,
+                style = MaterialTheme.typography.titleLarge,
+                color = White,
+                modifier = Modifier.width(320.dp)
+            )
+        }
+    }
 }
