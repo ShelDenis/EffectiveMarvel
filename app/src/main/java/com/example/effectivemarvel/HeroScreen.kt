@@ -4,6 +4,7 @@ package com.example.effectivemarvel
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -35,7 +37,7 @@ import com.example.effectivemarvel.ui.theme.White
 
 
 @Composable
-fun HeroScreen(heroName: String) {
+fun HeroScreen(navController: NavController, heroName: String) {
     var hRef: String = ""
     var hDescription: String = ""
 
@@ -55,6 +57,16 @@ fun HeroScreen(heroName: String) {
             contentDescription = heroName,
             contentScale = ContentScale.FillBounds,
             modifier = Modifier
+        )
+
+        Image(
+            painter = painterResource(id = R.drawable.ic_arrow_left),
+            contentDescription = "Arrow back",
+            modifier = Modifier
+                .size(56.dp, 64.dp)
+                .padding(top = 16.dp, start = 16.dp)
+                .clickable {
+                    navController.navigate("choose_hero_screen") }
         )
 
         Column(modifier = Modifier

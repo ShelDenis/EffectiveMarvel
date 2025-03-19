@@ -42,7 +42,7 @@ fun Navigation() {
             }
         )) { backStackEntry ->
             val heroName = backStackEntry.arguments?.getString("heroName")
-            HeroScreen(heroName.toString())
+            HeroScreen(navController, heroName.toString())
         }
     }
 }
