@@ -1,6 +1,9 @@
 @file:OptIn(ExperimentalFoundationApi::class)
 
 package com.example.effectivemarvel
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -21,11 +24,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.paint
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -49,8 +55,8 @@ fun ChooseHeroScreen(navController: NavController) {
 
     Column(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(30.dp),
+            .fillMaxWidth()
+            .padding(top = 30.dp, bottom = 30.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
@@ -72,8 +78,7 @@ fun ChooseHeroScreen(navController: NavController) {
 
         LazyRow(
             modifier = Modifier
-                .fillMaxSize()
-                .padding(30.dp),
+                .fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             state = lazyListState,
             flingBehavior = snapBehavior
@@ -82,6 +87,7 @@ fun ChooseHeroScreen(navController: NavController) {
                 item {
                     val shape =  RoundedCornerShape(10.dp)
                     val height = 550.dp
+
                     Box(
                         modifier = Modifier
                             .height(height)
