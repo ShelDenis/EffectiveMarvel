@@ -18,26 +18,36 @@ class MarvelViewModel : ViewModel() {
     private val _characters = MutableStateFlow<List<MarvelCharacter>>(emptyList())
     val characters: StateFlow<List<MarvelCharacter>> get() = _characters
 
+
+//    private val _characters = MutableStateFlow<ArrayList<MarvelCharacter>>(ArrayList())
+//    val characters: StateFlow<ArrayList<MarvelCharacter>> get() = _characters
+
     init {
         viewModelScope.launch {
-            val public_key = "a856a05b87e1d06b80b054d76b67c8df"
-            val private_key = "d262b8e973bf6ada12e9d8c5234a8c0742fc2ef2"
-            val timestamp = System.currentTimeMillis().toString()
+//            val public_key = "a856a05b87e1d06b80b054d76b67c8df"
+//            val private_key = "d262b8e973bf6ada12e9d8c5234a8c0742fc2ef2"
+//            val timestamp = System.currentTimeMillis().toString()
 
-            val hashInput = "$timestamp$private_key$public_key"
-            val md5Digest = MessageDigest.getInstance("MD5").digest(hashInput.toByteArray(Charsets.UTF_8))
-            val hash_value = Base64.getEncoder().encodeToString(md5Digest)
+            val public_key = "5d103b1af37466dcc9374d4349a2c10f"
+//            val private_key = "d262b8e973bf6ada12e9d8c5234a8c0742fc2ef2"
+            val timestamp = "1710250461"
+            val hash_value = "c357422eaa6746cdbb3a9bdf4d4a0a69"
 
-            val call = marvelApi.getCharacters(hash_value, public_key, timestamp)
+//            val hashInput = "$timestamp$private_key$public_key"
+//            val md5Digest = MessageDigest.getInstance("MD5").digest(hashInput.toByteArray(Charsets.UTF_8))
+//            val hash_value = Base64.getEncoder().encodeToString(md5Digest)
+
+            val call = marvelApi.getCharacters(timestamp, public_key, hash_value)
 
             call.enqueue(object : Callback<MarvelCharactersResponse> {
                 override fun onResponse(call: Call<MarvelCharactersResponse>, response: Response<MarvelCharactersResponse>) {
                     if (response.isSuccessful) {
                         val marvelCharactersResponse = response.body()
                         if (marvelCharactersResponse != null) {
-                            _characters.value = marvelCharactersResponse.data.results // Извлекаем список персонажей
+                            _characters.value = marvelCharactersResponse.data.results.toList()
                         }
                     } else {
+//                        _characters.value = arrayListOf<MarvelCharacter>()
                         _characters.value = listOf<MarvelCharacter>()
                     }
                 }

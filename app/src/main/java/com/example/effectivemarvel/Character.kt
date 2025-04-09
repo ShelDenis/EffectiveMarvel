@@ -19,10 +19,17 @@ import java.util.Date
 
 import com.squareup.moshi.Json
 
+
+data class HeroImage(
+    @Json(name="path") val path: String,
+    @Json(name="extension") val extension: String,
+)
+
 data class MarvelCharacter(
-//    @Json(name = "id") val id: Int,
-//    @Json(name = "name") val name: String,
-//    @Json(name = "description") val description: String,
+    @Json(name = "id") val id: Int,
+    @Json(name = "name") val name: String,
+    @Json(name = "description") val description: String,
+    @Json(name="thumbnail") val thumbnail: HeroImage,
 //    @Json(name = "modified") val modified: Date,
 //    @Json(name = "resourceURI") val resourceURI: String,
 //    @Json(name = "urls") val urls: List<URL>,
@@ -31,14 +38,15 @@ data class MarvelCharacter(
 //    @Json(name = "stories") val stories: List<String>,
 //    @Json(name = "events") val events: List<String>,
 //    @Json(name = "series") val series: List<String>,
-    @field:Json(name = "code") val code: String,
-    @field:Json(name = "message") val name: String,
+//    @field:Json(name = "code") val code: String,
+//    @field:Json(name = "message") val name: String,
 )
 
 data class MarvelCharactersResponse(
     @field:Json(name = "data") val data: Data,
 ) {
     data class Data(
+//        @field:Json(name = "results") val results: ArrayList<MarvelCharacter>
         @field:Json(name = "results") val results: List<MarvelCharacter>
     )
 }

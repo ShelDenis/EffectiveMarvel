@@ -64,9 +64,9 @@ fun ChooseHeroScreen(navController: NavController,
                     contentScale = ContentScale.FillBounds)
         })
 
-    for (ch: MarvelCharacter in characters) {
-        Text(text = ch.name)
-    }
+//    for (ch: MarvelCharacter in characters) {
+//        Text(text = ch.name)
+//    }
 
     Column(
         modifier = Modifier
@@ -91,9 +91,10 @@ fun ChooseHeroScreen(navController: NavController,
             color = White
         )
 
-        for (ch: MarvelCharacter in characters) {
-            Text(text = ch.name)
-        }
+//        for (ch: MarvelCharacter in characters) {
+//            Text(text = ch.thumbnail.path)
+//        }
+//        val firstFiveHeroes = characters.subList(0, 4)
 
         LazyRow(
             modifier = Modifier
@@ -102,10 +103,17 @@ fun ChooseHeroScreen(navController: NavController,
             state = lazyListState,
             flingBehavior = snapBehavior
         ) {
-            for (h in heroes) {
+//            for (h in heroes) {
+            var charList = characters
+
+            if (charList.size > 0)
+                charList = charList.subList(12, 17)
+
+            for (h: MarvelCharacter in charList)
                 item {
                     val shape =  RoundedCornerShape(10.dp)
                     val height = 550.dp
+                    val imagePath = h.thumbnail.path + "." + h.thumbnail.extension
 
                     Box(
                         modifier = Modifier
@@ -128,14 +136,14 @@ fun ChooseHeroScreen(navController: NavController,
                         }
 
                         AsyncImage(
-                            model = h.img_ref,
+                            model = imagePath,
                             contentDescription = h.name,
-                            contentScale = ContentScale.FillBounds,
+                            contentScale = ContentScale.Crop,
                             modifier = Modifier
                                 .width(270.dp)
                                 .height(550.dp)
+                                .align(Alignment.Center)
                                 .clip(shape)
-                                .fillMaxSize()
                         )
                     }
 
@@ -143,4 +151,3 @@ fun ChooseHeroScreen(navController: NavController,
             }
         }
     }
-}
