@@ -37,7 +37,8 @@ import com.example.effectivemarvel.ui.theme.White
 
 
 @Composable
-fun HeroScreen(navController: NavController, heroName: String) {
+fun HeroScreen(navController: NavController,
+               heroName: String) {
     var hRef: String = ""
     var hDescription: String = ""
 

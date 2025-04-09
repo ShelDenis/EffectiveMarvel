@@ -1,0 +1,50 @@
+package com.example.effectivemarvel
+
+import androidx.compose.runtime.*
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Response
+import java.security.MessageDigest
+import java.util.Base64
+import retrofit2.Callback
+
+class MarvelViewModel : ViewModel() {
+    private val _characters = MutableStateFlow<List<MarvelCharacter>>(emptyList())
+    val characters: StateFlow<List<MarvelCharacter>> get() = _characters
+
+    init {
+        viewModelScope.launch {
+            val public_key = "a856a05b87e1d06b80b054d76b67c8df"
+            val private_key = "d262b8e973bf6ada12e9d8c5234a8c0742fc2ef2"
+            val timestamp = System.currentTimeMillis().toString()
+
+            val hashInput = "$timestamp$private_key$public_key"
+            val md5Digest = MessageDigest.getInstance("MD5").digest(hashInput.toByteArray(Charsets.UTF_8))
+            val hash_value = Base64.getEncoder().encodeToString(md5Digest)
+
+            val call = marvelApi.getCharacters(hash_value, public_key, timestamp)
+
+            call.enqueue(object : Callback<MarvelCharactersResponse> {
+                override fun onResponse(call: Call<MarvelCharactersResponse>, response: Response<MarvelCharactersResponse>) {
+                    if (response.isSuccessful) {
+                        val marvelCharactersResponse = response.body()
+                        if (marvelCharactersResponse != null) {
+                            _characters.value = marvelCharactersResponse.data.results // Извлекаем список персонажей
+                        }
+                    } else {
+                        _characters.value = listOf<MarvelCharacter>()
+                    }
+                }
+
+                override fun onFailure(call: Call<MarvelCharactersResponse>, t: Throwable) {
+                }
+            })
+        }
+        }
+    }

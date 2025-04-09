@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -39,11 +40,21 @@ import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.effectivemarvel.ui.theme.White
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
+import androidx.lifecycle.ViewModelProvider
+
+
 
 @Composable
-fun ChooseHeroScreen(navController: NavController) {
+fun ChooseHeroScreen(navController: NavController,
+                     viewModel: MarvelViewModel) {
     val lazyListState = rememberLazyListState()
     val snapBehavior = rememberSnapFlingBehavior(lazyListState = lazyListState)
+
+    val characters by viewModel.characters.collectAsState()
 
     Box(
         modifier = with (Modifier){
@@ -52,6 +63,10 @@ fun ChooseHeroScreen(navController: NavController) {
                     painterResource(id = R.drawable.ic_main_background),
                     contentScale = ContentScale.FillBounds)
         })
+
+    for (ch: MarvelCharacter in characters) {
+        Text(text = ch.name)
+    }
 
     Column(
         modifier = Modifier
@@ -75,6 +90,10 @@ fun ChooseHeroScreen(navController: NavController) {
             modifier = Modifier.padding(vertical = 54.dp),
             color = White
         )
+
+        for (ch: MarvelCharacter in characters) {
+            Text(text = ch.name)
+        }
 
         LazyRow(
             modifier = Modifier
