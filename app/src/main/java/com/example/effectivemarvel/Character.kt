@@ -29,7 +29,7 @@ data class MarvelCharacter(
     @Json(name = "id") val id: Int,
     @Json(name = "name") val name: String,
     @Json(name = "description") val description: String,
-    @Json(name="thumbnail") val thumbnail: HeroImage,
+    @Json(name = "thumbnail") val thumbnail: HeroImage,
 //    @Json(name = "modified") val modified: Date,
 //    @Json(name = "resourceURI") val resourceURI: String,
 //    @Json(name = "urls") val urls: List<URL>,

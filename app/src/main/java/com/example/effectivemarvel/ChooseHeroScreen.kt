@@ -121,7 +121,7 @@ fun ChooseHeroScreen(navController: NavController,
                             .fillMaxWidth()
                             .background(White, shape = shape)
                             .clickable {
-                                navController.navigate("hero_screen_${h.name}") },
+                                navController.navigate("hero_screen_${h.id}") },
                         contentAlignment = Alignment.BottomStart
                     ) {
                         Column(modifier = Modifier

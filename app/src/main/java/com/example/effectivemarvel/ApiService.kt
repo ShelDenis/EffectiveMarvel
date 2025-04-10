@@ -19,6 +19,14 @@ interface ApiService {
         @Query("hash") hash: String
     ): Call<MarvelCharactersResponse>
 
+    @GET("public/characters/{characterId}")
+    fun getCharacterById(
+        @Path("characterId") characterId: Int,
+        @Query("ts") timestamp: String,
+        @Query("apikey") publicKey: String,
+        @Query("hash") hash: String
+    ): Call<MarvelCharactersResponse>
+
     @GET("posts/{id}")
     suspend fun getPost(@Path("id") id: Int): Character
 }
