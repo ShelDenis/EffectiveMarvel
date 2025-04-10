@@ -1,6 +1,5 @@
 package com.example.effectivemarvel
 
-//package com.example.effectivemarvel
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -16,9 +15,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -30,6 +30,8 @@ import com.example.effectivemarvel.ui.theme.White
 
 @Composable
 fun HeroScreen(navController: NavController, heroId: String, viewModel: MarvelCharacterViewModel) {
+    val waitServer = remember { mutableStateOf(false) }
+
     LaunchedEffect(Unit) {
         viewModel.loadCharacterById(heroId.toInt(), "1710250461",
             "5d103b1af37466dcc9374d4349a2c10f", "c357422eaa6746cdbb3a9bdf4d4a0a69")
@@ -37,11 +39,12 @@ fun HeroScreen(navController: NavController, heroId: String, viewModel: MarvelCh
 
     val characterState = viewModel.characterState.collectAsState()
 
-//
-//    val characterId = 1011334 // Пример ID персонажа
-//    val timestamp = "your_timestamp"
-//    val publicKey = "your_public_key"
-//    val hash = "your_hash"
+    if (characterState.value == null)
+        waitServer.value = true
+    else
+        waitServer.value = false
+
+
 
     Column {
         characterState.value?.data?.results?.firstOrNull()?.let { character ->
@@ -49,6 +52,13 @@ fun HeroScreen(navController: NavController, heroId: String, viewModel: MarvelCh
                 modifier = Modifier
                     .fillMaxSize()
             ) {
+                if (waitServer.value)
+                    Text(
+                        text = "Waiting for server response...",
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.padding(vertical = 74.dp),
+                        color = White
+                    )
 
                 AsyncImage(
                     model = character.thumbnail.path + "." + character.thumbnail.extension,
@@ -92,30 +102,5 @@ fun HeroScreen(navController: NavController, heroId: String, viewModel: MarvelCh
                 }
             }
         }
-
-//    viewModel.loadCharacterById(heroId, timestamp, publicKey, hash)
-//
-//    LaunchedEffect(Unit) {
-//        viewModel.characterState.collect { characterState ->
-//            Text(characterState.data)
-//            }
-//        }
-
-
-
-
-
-
-//    val character by viewModel.characters.collectAsState(heroId)
-
-//    val imagePath = character.thumbnail.path + "." + character.thumbnail.extension
-
-//    for (h in heroes) {
-//        if (h.name == heroName) {
-//            hRef = h.img_ref
-//            hDescription = h.describe
-//        }
-//    }
-
-}
+    }
 }

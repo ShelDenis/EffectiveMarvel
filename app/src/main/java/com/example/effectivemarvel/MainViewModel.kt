@@ -1,17 +1,12 @@
 package com.example.effectivemarvel
 
-import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Response
-import java.security.MessageDigest
-import java.util.Base64
 import retrofit2.Callback
 
 class MarvelViewModel : ViewModel() {
@@ -21,13 +16,8 @@ class MarvelViewModel : ViewModel() {
     init {
         viewModelScope.launch {
             val public_key = "5d103b1af37466dcc9374d4349a2c10f"
-//            val private_key = "d262b8e973bf6ada12e9d8c5234a8c0742fc2ef2"
             val timestamp = "1710250461"
             val hash_value = "c357422eaa6746cdbb3a9bdf4d4a0a69"
-
-//            val hashInput = "$timestamp$private_key$public_key"
-//            val md5Digest = MessageDigest.getInstance("MD5").digest(hashInput.toByteArray(Charsets.UTF_8))
-//            val hash_value = Base64.getEncoder().encodeToString(md5Digest)
 
             val call = marvelApi.getCharacters(timestamp, public_key, hash_value)
 

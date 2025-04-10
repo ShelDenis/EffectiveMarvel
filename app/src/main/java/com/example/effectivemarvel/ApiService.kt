@@ -2,14 +2,11 @@ package com.example.effectivemarvel
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.Retrofit
-import com.squareup.moshi.Json
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import retrofit2.Call
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.Query
-import java.security.MessageDigest
-import java.util.Base64
 
 interface ApiService {
     @GET("public/characters")
@@ -26,9 +23,6 @@ interface ApiService {
         @Query("apikey") publicKey: String,
         @Query("hash") hash: String
     ): Call<MarvelCharactersResponse>
-
-    @GET("posts/{id}")
-    suspend fun getPost(@Path("id") id: Int): Character
 }
 
 val moshi = Moshi.Builder()
