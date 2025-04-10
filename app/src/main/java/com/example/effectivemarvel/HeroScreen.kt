@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
@@ -32,10 +33,17 @@ import com.example.effectivemarvel.ui.theme.White
 fun HeroScreen(navController: NavController, heroId: String, viewModel: MarvelCharacterViewModel) {
     val waitServer = remember { mutableStateOf(false) }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(heroId) {
         viewModel.loadCharacterById(heroId.toInt(), "1710250461",
             "5d103b1af37466dcc9374d4349a2c10f", "c357422eaa6746cdbb3a9bdf4d4a0a69")
     }
+
+    DisposableEffect(Unit) {
+        onDispose {
+            viewModel.clearCharacterState()
+        }
+    }
+
 
     val characterState = viewModel.characterState.collectAsState()
 

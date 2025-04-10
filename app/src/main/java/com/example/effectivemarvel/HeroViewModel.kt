@@ -23,5 +23,9 @@ class MarvelCharacterViewModel : ViewModel() {
             _characterState.value = null
         }
     }
+
+    fun clearCharacterState() {
+        _characterState.value = null
+    }
 }
 
