@@ -101,45 +101,45 @@ fun ChooseHeroScreen(navController: NavController,
             flingBehavior = snapBehavior
         ) {
 
-            for (h: MarvelCharacter in charList)
-                item {
-                    val shape =  RoundedCornerShape(10.dp)
-                    val height = 550.dp
-                    val imagePath = h.thumbnail.path + "." + h.thumbnail.extension
+            items(charList.count(), key = { charList[it].id }) { index ->
+                val h = charList[index]
+                val shape =  RoundedCornerShape(10.dp)
+                val height = 550.dp
+                val imagePath = h.thumbnail.path + "." + h.thumbnail.extension
 
-                    Box(
-                        modifier = Modifier
-                            .height(height)
-                            .fillMaxWidth()
-                            .background(White, shape = shape)
-                            .clickable {
-                                navController.navigate("hero_screen_${h.id}") },
-                        contentAlignment = Alignment.BottomStart
+                Box(
+                    modifier = Modifier
+                        .height(height)
+                        .fillMaxWidth()
+                        .background(White, shape = shape)
+                        .clickable {
+                            navController.navigate("hero_screen_${h.id}") },
+                    contentAlignment = Alignment.BottomStart
+                ) {
+                    Column(modifier = Modifier
+                        .padding(start = 28.dp, bottom = 40.dp)
+                        .zIndex(1f)
                     ) {
-                        Column(modifier = Modifier
-                            .padding(start = 28.dp, bottom = 40.dp)
-                            .zIndex(1f)
-                        ) {
-                            Text(
-                            text = h.name,
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = White,
-                        )
-                        }
-
-                        AsyncImage(
-                            model = imagePath,
-                            contentDescription = h.name,
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier
-                                .width(270.dp)
-                                .height(550.dp)
-                                .align(Alignment.Center)
-                                .clip(shape)
-                        )
+                        Text(
+                        text = h.name,
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = White,
+                    )
                     }
 
+                    AsyncImage(
+                        model = imagePath,
+                        contentDescription = h.name,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier
+                            .width(270.dp)
+                            .height(550.dp)
+                            .align(Alignment.Center)
+                            .clip(shape)
+                    )
                 }
+
             }
         }
     }
+}
