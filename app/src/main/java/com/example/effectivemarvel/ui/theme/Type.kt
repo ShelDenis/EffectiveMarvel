@@ -32,3 +32,17 @@ val Typography = Typography(
     )
     */
 )
+
+val MyCustomTypography = Typography(
+    bodyLarge = TextStyle(
+        fontFamily = com.example.effectivemarvel.InterFont,
+        fontWeight = FontWeight.Bold,
+        fontSize = 28.sp
+    ),
+
+    titleLarge = TextStyle(
+        fontFamily = com.example.effectivemarvel.InterFont,
+        fontWeight = FontWeight.Normal,
+        fontSize = 22.sp
+    )
+)

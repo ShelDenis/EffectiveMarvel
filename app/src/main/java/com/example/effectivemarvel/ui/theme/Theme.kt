@@ -52,7 +52,7 @@ fun EffectiveMarvelTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = MyCustomTypography,
         content = content
     )
 }
