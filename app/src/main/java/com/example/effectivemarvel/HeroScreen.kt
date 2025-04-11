@@ -29,13 +29,96 @@ import coil.compose.AsyncImage
 import com.example.effectivemarvel.ui.theme.White
 
 
+//@Composable
+//fun HeroScreen(navController: NavController, heroId: String, viewModel: MarvelCharacterViewModel) {
+//    val waitServer = remember { mutableStateOf(false) }
+//
+//    LaunchedEffect(heroId) {
+//        viewModel.loadCharacterById(heroId.toInt(), "1710250461",
+//            "5d103b1af37466dcc9374d4349a2c10f", "c357422eaa6746cdbb3a9bdf4d4a0a69")
+//    }
+//
+//    DisposableEffect(Unit) {
+//        onDispose {
+//            viewModel.clearCharacterState()
+//        }
+//    }
+//
+//
+//    val characterState = viewModel.characterState.collectAsState()
+//
+//    if (characterState.value == null)
+//        waitServer.value = true
+//    else
+//        waitServer.value = false
+//
+//
+//
+//    Column {
+//        characterState.value?.data?.results?.firstOrNull()?.let { character ->
+//            Box(
+//                modifier = Modifier
+//                    .fillMaxSize()
+//            ) {
+//                if (waitServer.value)
+//                    Text(
+//                        text = "Waiting for server response...",
+//                        style = MaterialTheme.typography.bodyLarge,
+//                        modifier = Modifier.padding(vertical = 74.dp),
+//                        color = White
+//                    )
+//
+//                AsyncImage(
+//                    model = character.thumbnail.path + "." + character.thumbnail.extension,
+//                    contentDescription = character.name,
+//                    contentScale = ContentScale.Crop,
+//                    modifier = Modifier
+//                        .fillMaxSize()
+//                        .align(Alignment.Center)
+//                )
+//
+//                Image(
+//                    painter = painterResource(id = R.drawable.ic_arrow_left),
+//                    contentDescription = "Arrow back",
+//                    modifier = Modifier
+//                        .size(56.dp, 64.dp)
+//                        .padding(top = 16.dp, start = 16.dp)
+//                        .clickable {
+//                            navController.navigate("choose_hero_screen") }
+//                )
+//
+//                Column(modifier = Modifier
+//                    .padding(start = 28.dp, bottom = 40.dp)
+//                    .zIndex(1f)
+//                    .align(Alignment.BottomStart)
+//                ) {
+//                    Text(
+//                        text = character.name,
+//                        style = MaterialTheme.typography.bodyLarge,
+//                        color = White,
+//                    )
+//
+//                    Spacer(modifier = Modifier
+//                        .height(20.dp))
+//
+//                    Text(
+//                        text = character.description,
+//                        style = MaterialTheme.typography.titleLarge,
+//                        color = White,
+//                        modifier = Modifier.width(320.dp)
+//                    )
+//                }
+//            }
+//        }
+//    }
+//}
+
 @Composable
 fun HeroScreen(navController: NavController, heroId: String, viewModel: MarvelCharacterViewModel) {
     val waitServer = remember { mutableStateOf(false) }
 
     LaunchedEffect(heroId) {
-        viewModel.loadCharacterById(heroId.toInt(), "1710250461",
-            "5d103b1af37466dcc9374d4349a2c10f", "c357422eaa6746cdbb3a9bdf4d4a0a69")
+        viewModel.loadCharacterById(heroId.toInt(), "1710250461", "5d103b1af37466dcc9374d4349a2c10f", "c357422eaa6746cdbb3a9bdf4d4a0a69")
     }
 
     DisposableEffect(Unit) {
@@ -44,37 +127,43 @@ fun HeroScreen(navController: NavController, heroId: String, viewModel: MarvelCh
         }
     }
 
-
     val characterState = viewModel.characterState.collectAsState()
+    val errorState = viewModel.errorState.collectAsState()  // Мы добавили это для получения ошибок
 
-    if (characterState.value == null)
+    if (characterState.value == null) {
         waitServer.value = true
-    else
+    } else {
         waitServer.value = false
-
-
+    }
 
     Column {
-        characterState.value?.data?.results?.firstOrNull()?.let { character ->
+        errorState.value?.let { errorMessage ->  // Проверяем, есть ли сообщение об ошибке
+            Text(
+                text = errorMessage,
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.error,  // Используйте соответствующий цвет для ошибок
+                modifier = Modifier.padding(16.dp)
+            )
+        }
+
+        characterState.value?.data?.results?.firstOrNull()?.takeIf { errorState.value == null }?.let { character ->
             Box(
-                modifier = Modifier
-                    .fillMaxSize()
+                modifier = Modifier.fillMaxSize()
             ) {
-                if (waitServer.value)
+                if (waitServer.value) {
                     Text(
                         text = "Waiting for server response...",
                         style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier.padding(vertical = 74.dp),
                         color = White
                     )
+                }
 
                 AsyncImage(
                     model = character.thumbnail.path + "." + character.thumbnail.extension,
                     contentDescription = character.name,
                     contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .align(Alignment.Center)
+                    modifier = Modifier.fillMaxSize().align(Alignment.Center)
                 )
 
                 Image(
@@ -84,13 +173,15 @@ fun HeroScreen(navController: NavController, heroId: String, viewModel: MarvelCh
                         .size(56.dp, 64.dp)
                         .padding(top = 16.dp, start = 16.dp)
                         .clickable {
-                            navController.navigate("choose_hero_screen") }
+                            navController.navigate("choose_hero_screen")
+                        }
                 )
 
-                Column(modifier = Modifier
-                    .padding(start = 28.dp, bottom = 40.dp)
-                    .zIndex(1f)
-                    .align(Alignment.BottomStart)
+                Column(
+                    modifier = Modifier
+                        .padding(start = 28.dp, bottom = 40.dp)
+                        .zIndex(1f)
+                        .align(Alignment.BottomStart)
                 ) {
                     Text(
                         text = character.name,
@@ -98,8 +189,7 @@ fun HeroScreen(navController: NavController, heroId: String, viewModel: MarvelCh
                         color = White,
                     )
 
-                    Spacer(modifier = Modifier
-                        .height(20.dp))
+                    Spacer(modifier = Modifier.height(20.dp))
 
                     Text(
                         text = character.description,
