@@ -26,19 +26,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-@Composable
-fun Navigation(vm: ViewModel, hvm: ViewModel) {
-    val navController = rememberNavController()
-    NavHost(navController, startDestination = "choose_hero_screen") {
-        composable("choose_hero_screen") { ChooseHeroScreen(navController, vm as MarvelViewModel) }
-        composable("hero_screen_{heroId}", arguments = listOf(
-            navArgument("heroId") {
-                type = NavType.StringType
-            }
-        )) { backStackEntry ->
-            val heroId = backStackEntry.arguments?.getString("heroId")
-            HeroScreen(navController, heroId.toString(), hvm as MarvelCharacterViewModel)
-        }
-    }
-}
