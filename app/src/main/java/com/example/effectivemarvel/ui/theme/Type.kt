@@ -1,10 +1,17 @@
-package com.example.effectivemarvel.ui.theme
+package com.example.effectivemarvel
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.text.font.Font
+
+
+val InterFont = FontFamily(
+    Font(R.font.inter,FontWeight.Normal),
+    Font(R.font.inter,FontWeight.Bold)
+)
 
 // Set of Material typography styles to start with
 val Typography = Typography(
@@ -35,13 +42,13 @@ val Typography = Typography(
 
 val MyCustomTypography = Typography(
     bodyLarge = TextStyle(
-        fontFamily = com.example.effectivemarvel.InterFont,
+        fontFamily = InterFont,
         fontWeight = FontWeight.Bold,
         fontSize = 28.sp
     ),
 
     titleLarge = TextStyle(
-        fontFamily = com.example.effectivemarvel.InterFont,
+        fontFamily = InterFont,
         fontWeight = FontWeight.Normal,
         fontSize = 22.sp
     )
