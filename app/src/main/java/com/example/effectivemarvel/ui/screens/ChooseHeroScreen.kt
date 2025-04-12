@@ -8,6 +8,7 @@ import androidx.compose.foundation.gestures.snapping.rememberSnapFlingBehavior
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -96,6 +97,7 @@ fun ChooseHeroScreen(navController: NavController,
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 state = lazyListState,
+                contentPadding = PaddingValues(horizontal = 60.dp),
                 flingBehavior = snapBehavior
             ) {
 
