@@ -17,15 +17,15 @@ class MarvelCharacterViewModel : ViewModel() {
     val errorState: StateFlow<String?> = _errorState
 
     fun loadCharacterById(characterId: Int, timestamp: String, publicKey: String, hash: String) {
-        try {
-            viewModelScope.launch {
+        viewModelScope.launch {
+            try {
                 val response = marvelApi.getCharacterById(characterId, timestamp, publicKey, hash).await()
                 _characterState.value = response
                 _errorState.value = null
+            } catch (e: Exception) {
+                _characterState.value = null
+                _errorState.value = "Error! Check your Internet connection"
             }
-        } catch (e: Exception) {
-            _characterState.value = null
-            _errorState.value = "Произошла ошибка: ${e.message}"
         }
     }
 

@@ -13,6 +13,9 @@ class MarvelViewModel : ViewModel() {
     private val _characters = MutableStateFlow<List<MarvelCharacter>>(emptyList())
     val characters: StateFlow<List<MarvelCharacter>> get() = _characters
 
+    private val _errorState = MutableStateFlow<String?>(null)
+    val errorState: StateFlow<String?> = _errorState
+
     init {
         viewModelScope.launch {
             val public_key = "5d103b1af37466dcc9374d4349a2c10f"
@@ -34,6 +37,7 @@ class MarvelViewModel : ViewModel() {
                 }
 
                 override fun onFailure(call: Call<MarvelCharactersResponse>, t: Throwable) {
+                    _errorState.value = "Error! Check your Internet connection"
                 }
             })
         }

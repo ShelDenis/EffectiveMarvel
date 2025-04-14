@@ -35,6 +35,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Button
 
 
 @Composable
@@ -44,13 +45,15 @@ fun ChooseHeroScreen(navController: NavController,
     val snapBehavior = rememberSnapFlingBehavior(lazyListState = lazyListState)
     val waitServer = remember { mutableStateOf(false) }
     val characters by viewModel.characters.collectAsState()
+    val errorState = viewModel.errorState.collectAsState()
 
     var charList = characters
 
     if (charList.size > 0) {
         charList = charList.subList(12, 17)
         waitServer.value = false
-    } else
+    }
+    else if (errorState.value == null)
         waitServer.value = true
 
     Box(modifier = Modifier.fillMaxSize()) {
@@ -68,6 +71,8 @@ fun ChooseHeroScreen(navController: NavController,
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
+
+
             AsyncImage(
                 model = "https://iili.io/JMnuvbp.png",
                 contentDescription = "marvel_logo",
@@ -93,57 +98,82 @@ fun ChooseHeroScreen(navController: NavController,
                     color = White
                 )
 
-            LazyRow(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                state = lazyListState,
-                contentPadding = PaddingValues(horizontal = 60.dp),
-                flingBehavior = snapBehavior
-            ) {
+                LazyRow(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp),
+                    state = lazyListState,
+                    contentPadding = PaddingValues(horizontal = 60.dp),
+                    flingBehavior = snapBehavior
+                ) {
 
-                items(charList.count(), key = { charList[it].id }) { index ->
-                    val h = charList[index]
-                    val shape = RoundedCornerShape(10.dp)
-                    val height = 550.dp
-                    val imagePath = h.thumbnail.path + "." + h.thumbnail.extension
+                    items(charList.count(), key = { charList[it].id }) { index ->
+                        val h = charList[index]
+                        val shape = RoundedCornerShape(10.dp)
+                        val height = 550.dp
+                        val imagePath = h.thumbnail.path + "." + h.thumbnail.extension
 
-                    Box(
-                        modifier = Modifier
-                            .height(height)
-                            .fillMaxWidth()
-                            .background(White, shape = shape)
-
-                            .clickable {
-                                navController.navigate("hero_screen_${h.id}")
-                            },
-                        contentAlignment = Alignment.BottomStart
-                    ) {
-                        Column(
+                        Box(
                             modifier = Modifier
-                                .padding(start = 28.dp, bottom = 40.dp)
-                                .zIndex(1f)
+                                .height(height)
+                                .fillMaxWidth()
+                                .background(White, shape = shape)
+                                .clickable {
+                                    navController.navigate("hero_screen_${h.id}")
+                                },
+                            contentAlignment = Alignment.BottomStart
                         ) {
-                            Text(
-                                text = h.name,
-                                style = MaterialTheme.typography.bodyLarge,
-                                color = White,
+                            Column(
+                                modifier = Modifier
+                                    .padding(start = 28.dp, bottom = 40.dp)
+                                    .zIndex(1f)
+                            ) {
+                                Text(
+                                    text = h.name,
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    color = White,
+                                )
+                            }
+
+                            AsyncImage(
+                                model = imagePath,
+                                contentDescription = h.name,
+                                contentScale = ContentScale.Crop,
+                                modifier = Modifier
+                                    .width(270.dp)
+                                    .height(550.dp)
+                                    .align(Alignment.Center)
+                                    .clip(shape)
                             )
                         }
 
-                        AsyncImage(
-                            model = imagePath,
-                            contentDescription = h.name,
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier
-                                .width(270.dp)
-                                .height(550.dp)
-                                .align(Alignment.Center)
-                                .clip(shape)
-                        )
                     }
+                }
 
+            if (errorState.value != null) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.CenterHorizontally)
+            ) {
+                errorState.value?.let { errorMessage ->
+
+                    Text(
+                        text = errorMessage,
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.error,
+                        modifier = Modifier.padding(16.dp)
+                            .align(Alignment.CenterHorizontally)
+                    )
+                }
+
+                Button(onClick = { navController.navigate("choose_hero_screen") })
+                {
+                    Text(text = "Update", style = MaterialTheme.typography.titleLarge)
                 }
             }
+
         }
-    }
+        }
+        }
+

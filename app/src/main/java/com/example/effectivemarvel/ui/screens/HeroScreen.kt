@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -53,7 +53,7 @@ fun HeroScreen(navController: NavController, heroId: String, viewModel: MarvelCh
     val characterState = viewModel.characterState.collectAsState()
     val errorState = viewModel.errorState.collectAsState()
 
-    if (characterState.value == null) {
+    if (characterState.value == null && errorState.value == null) {
         waitServer.value = true
     } else {
         waitServer.value = false
@@ -66,7 +66,23 @@ fun HeroScreen(navController: NavController, heroId: String, viewModel: MarvelCh
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.error,
                 modifier = Modifier.padding(16.dp)
+                    .align(Alignment.CenterHorizontally)
             )
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+            ) {
+                Button(onClick = { navController.navigate("hero_screen_${heroId}") })
+                {
+                    Text(text = "Update", style = MaterialTheme.typography.titleLarge)
+                }
+
+                Button(onClick = { navController.navigate("choose_hero_screen") })
+                {
+                    Text(text = "Turn back", style = MaterialTheme.typography.titleLarge)
+                }
+            }
         }
 
         if (waitServer.value) {
