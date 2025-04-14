@@ -69,7 +69,19 @@ fun HeroScreen(navController: NavController, heroId: String, viewModel: MarvelCh
             )
         }
 
+        if (waitServer.value) {
+            Text(
+                text="Waiting for response...",
+                style = MaterialTheme.typography.bodyLarge,
+                modifier = Modifier.padding(100.dp)
+                    .align(Alignment.CenterHorizontally)
+                )
+        }
+
         characterState.value?.data?.results?.firstOrNull()?.takeIf { errorState.value == null }?.let { character ->
+
+            var imgRef = remember { character.thumbnail.path + "." + character.thumbnail.extension }
+
             Box(
                 modifier = Modifier.fillMaxSize()
             ) {
@@ -83,7 +95,7 @@ fun HeroScreen(navController: NavController, heroId: String, viewModel: MarvelCh
                 }
 
                 AsyncImage(
-                    model = character.thumbnail.path + "." + character.thumbnail.extension,
+                    model = imgRef,
                     contentDescription = character.name,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.fillMaxSize().align(Alignment.Center)

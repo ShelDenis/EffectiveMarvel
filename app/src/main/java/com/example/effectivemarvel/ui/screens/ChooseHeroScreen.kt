@@ -86,9 +86,10 @@ fun ChooseHeroScreen(navController: NavController,
 
             if (waitServer.value)
                 Text(
-                    text = "Waiting for server response...",
+                    text="Waiting for response...",
                     style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.padding(vertical = 74.dp),
+                    modifier = Modifier.padding(100.dp)
+                        .align(Alignment.CenterHorizontally),
                     color = White
                 )
 
@@ -112,6 +113,7 @@ fun ChooseHeroScreen(navController: NavController,
                             .height(height)
                             .fillMaxWidth()
                             .background(White, shape = shape)
+
                             .clickable {
                                 navController.navigate("hero_screen_${h.id}")
                             },
