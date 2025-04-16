@@ -72,6 +72,7 @@ fun HeroScreen(navController: NavController, heroId: String, viewModel: MarvelCh
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .padding(16.dp)
             ) {
                 Button(onClick = { navController.navigate("hero_screen_${heroId}") })
                 {

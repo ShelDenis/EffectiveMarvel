@@ -9,14 +9,17 @@ import retrofit2.Call
 import retrofit2.Response
 import retrofit2.Callback
 
+
 class MarvelViewModel : ViewModel() {
     private val _characters = MutableStateFlow<List<MarvelCharacter>>(emptyList())
-    val characters: StateFlow<List<MarvelCharacter>> get() = _characters
+    val characters: StateFlow<List<MarvelCharacter>>
+        get() = _characters
 
     private val _errorState = MutableStateFlow<String?>(null)
-    val errorState: StateFlow<String?> = _errorState
+    val errorState: StateFlow<String?>
+        get() = _errorState
 
-    init {
+    fun loadCharacters() {
         viewModelScope.launch {
             val public_key = "5d103b1af37466dcc9374d4349a2c10f"
             val timestamp = "1710250461"
@@ -32,7 +35,7 @@ class MarvelViewModel : ViewModel() {
                             _characters.value = marvelCharactersResponse.data.results.toList()
                         }
                     } else {
-                        _characters.value = listOf<MarvelCharacter>()
+                        _characters.value = emptyList()
                     }
                 }
 
@@ -41,5 +44,13 @@ class MarvelViewModel : ViewModel() {
                 }
             })
         }
-        }
     }
+
+    init {
+        loadCharacters()
+    }
+
+    fun clearErrorState() {
+        _errorState.value = null
+    }
+}

@@ -39,22 +39,21 @@ import androidx.compose.material3.Button
 
 
 @Composable
-fun ChooseHeroScreen(navController: NavController,
-                     viewModel: MarvelViewModel) {
+fun ChooseHeroScreen(navController: NavController, viewModel: MarvelViewModel) {
     val lazyListState = rememberLazyListState()
     val snapBehavior = rememberSnapFlingBehavior(lazyListState = lazyListState)
     val waitServer = remember { mutableStateOf(false) }
     val characters by viewModel.characters.collectAsState()
-    val errorState = viewModel.errorState.collectAsState()
+    val errorState = viewModel.errorState.collectAsState(null)
 
     var charList = characters
 
     if (charList.size > 0) {
         charList = charList.subList(12, 17)
         waitServer.value = false
-    }
-    else if (errorState.value == null)
+    } else if (errorState.value == null) {
         waitServer.value = true
+    }
 
     Box(modifier = Modifier.fillMaxSize()) {
         Surface(
@@ -62,7 +61,6 @@ fun ChooseHeroScreen(navController: NavController,
                 .fillMaxSize()
                 .drawTwoColoredBackground(heroColor = Color.Red)
         ) {}
-    }
 
         Column(
             modifier = Modifier
@@ -71,8 +69,6 @@ fun ChooseHeroScreen(navController: NavController,
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
-
-
             AsyncImage(
                 model = "https://iili.io/JMnuvbp.png",
                 contentDescription = "marvel_logo",
@@ -89,15 +85,15 @@ fun ChooseHeroScreen(navController: NavController,
                 color = White
             )
 
-            if (waitServer.value)
+            if (waitServer.value && errorState.value == null) {
                 Text(
-                    text="Waiting for response...",
+                    text = "Waiting for response...",
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.padding(100.dp)
                         .align(Alignment.CenterHorizontally),
                     color = White
                 )
-
+            } else if (errorState.value == null && !waitServer.value) {
                 LazyRow(
                     modifier = Modifier
                         .fillMaxWidth(),
@@ -106,7 +102,6 @@ fun ChooseHeroScreen(navController: NavController,
                     contentPadding = PaddingValues(horizontal = 60.dp),
                     flingBehavior = snapBehavior
                 ) {
-
                     items(charList.count(), key = { charList[it].id }) { index ->
                         val h = charList[index]
                         val shape = RoundedCornerShape(10.dp)
@@ -146,34 +141,34 @@ fun ChooseHeroScreen(navController: NavController,
                                     .clip(shape)
                             )
                         }
-
                     }
                 }
+            } else if (errorState.value != null) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.CenterHorizontally)
+                        .padding(16.dp)
+                ) {
+                    errorState.value?.let { errorMessage ->
+                        Text(
+                            text = errorMessage,
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = White,
+                            modifier = Modifier.padding(16.dp)
+                                .align(Alignment.CenterHorizontally)
+                        )
+                    }
 
-            if (errorState.value != null) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .align(Alignment.CenterHorizontally)
-            ) {
-                errorState.value?.let { errorMessage ->
-
-                    Text(
-                        text = errorMessage,
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.error,
-                        modifier = Modifier.padding(16.dp)
-                            .align(Alignment.CenterHorizontally)
-                    )
-                }
-
-                Button(onClick = { navController.navigate("choose_hero_screen") })
-                {
-                    Text(text = "Update", style = MaterialTheme.typography.titleLarge)
+                    Button(onClick = {
+                        waitServer.value = true
+                        viewModel.clearErrorState()
+                        viewModel.loadCharacters()
+                    }) {
+                        Text(text = "Update", style = MaterialTheme.typography.titleLarge)
+                    }
                 }
             }
-
         }
-        }
-        }
-
+    }
+}
