@@ -1,6 +1,7 @@
 @file:OptIn(ExperimentalFoundationApi::class)
 
 package com.example.effectivemarvel
+import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -36,7 +38,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Button
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
+import kotlin.math.abs
 
+
+inline fun lerp(a: Float, b: Float, t: Float): Float {
+    return a + t * (b - a)
+}
 
 @Composable
 fun ChooseHeroScreen(navController: NavController, viewModel: MarvelViewModel) {
@@ -54,6 +64,9 @@ fun ChooseHeroScreen(navController: NavController, viewModel: MarvelViewModel) {
     } else if (errorState.value == null) {
         waitServer.value = true
     }
+
+    val density = LocalDensity.current
+    val screenWidthPx = with(density) { LocalConfiguration.current.screenWidthDp.dp.roundToPx() }.toFloat()
 
     Box(modifier = Modifier.fillMaxSize()) {
         Surface(
@@ -95,26 +108,30 @@ fun ChooseHeroScreen(navController: NavController, viewModel: MarvelViewModel) {
                 )
             } else if (errorState.value == null && !waitServer.value) {
                 LazyRow(
-                    modifier = Modifier
-                        .fillMaxWidth(),
+                    modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.spacedBy(16.dp),
                     state = lazyListState,
                     contentPadding = PaddingValues(horizontal = 60.dp),
                     flingBehavior = snapBehavior
                 ) {
-                    items(charList.count(), key = { charList[it].id }) { index ->
-                        val h = charList[index]
+                    itemsIndexed(charList, key = { index, item -> item.id }) { index, hero ->
+                        val offset = lazyListState.layoutInfo.visibleItemsInfo.find { it.index == index }?.offset ?: 0
+                        val centerOffset = ((screenWidthPx / 2) - (offset + screenWidthPx / 2)).coerceIn(-screenWidthPx / 2, screenWidthPx / 2)
+
+                        val scaleFactor = lerp(0.7f, 1f, 1f - abs(centerOffset) / (screenWidthPx / 2))
+
                         val shape = RoundedCornerShape(10.dp)
                         val height = 550.dp
-                        val imagePath = h.thumbnail.path + "." + h.thumbnail.extension
+                        val imagePath = hero.thumbnail.path + "." + hero.thumbnail.extension
 
                         Box(
                             modifier = Modifier
+                                .graphicsLayer(scaleX = scaleFactor, scaleY = scaleFactor)
                                 .height(height)
                                 .fillMaxWidth()
                                 .background(White, shape = shape)
                                 .clickable {
-                                    navController.navigate("hero_screen_${h.id}")
+                                    navController.navigate("hero_screen_${hero.id}")
                                 },
                             contentAlignment = Alignment.BottomStart
                         ) {
@@ -124,7 +141,7 @@ fun ChooseHeroScreen(navController: NavController, viewModel: MarvelViewModel) {
                                     .zIndex(1f)
                             ) {
                                 Text(
-                                    text = h.name,
+                                    text = hero.name,
                                     style = MaterialTheme.typography.bodyLarge,
                                     color = White,
                                 )
@@ -132,7 +149,7 @@ fun ChooseHeroScreen(navController: NavController, viewModel: MarvelViewModel) {
 
                             AsyncImage(
                                 model = imagePath,
-                                contentDescription = h.name,
+                                contentDescription = hero.name,
                                 contentScale = ContentScale.Crop,
                                 modifier = Modifier
                                     .width(270.dp)
@@ -143,6 +160,7 @@ fun ChooseHeroScreen(navController: NavController, viewModel: MarvelViewModel) {
                         }
                     }
                 }
+
             } else if (errorState.value != null) {
                 Column(
                     modifier = Modifier
