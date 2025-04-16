@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -59,7 +60,7 @@ fun ChooseHeroScreen(navController: NavController, viewModel: MarvelViewModel) {
     var charList = characters
 
     if (charList.size > 0) {
-        charList = charList.subList(12, 17)
+        charList = charList.subList(0, 5)
         waitServer.value = false
     } else if (errorState.value == null) {
         waitServer.value = true
@@ -128,6 +129,7 @@ fun ChooseHeroScreen(navController: NavController, viewModel: MarvelViewModel) {
                             modifier = Modifier
                                 .graphicsLayer(scaleX = scaleFactor, scaleY = scaleFactor)
                                 .height(height)
+                                .width(270.dp)
                                 .fillMaxWidth()
                                 .background(White, shape = shape)
                                 .clickable {
