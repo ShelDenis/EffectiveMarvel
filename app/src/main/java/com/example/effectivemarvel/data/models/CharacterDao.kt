@@ -22,5 +22,8 @@ interface CharacterDao {
 
     @Delete
     fun delete(character: CharacterDataClass)
+
+    @Query("DELETE FROM characters")
+    suspend fun clearTable()
 }
 
