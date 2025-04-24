@@ -17,6 +17,9 @@ import androidx.navigation.navArgument
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        DatabaseProvider.initDb(applicationContext)
+
         val vm = ViewModelProvider(this).get(MarvelViewModel::class.java)
         val hvm = ViewModelProvider(this).get(MarvelCharacterViewModel::class.java)
         setContent {

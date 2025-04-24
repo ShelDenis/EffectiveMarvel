@@ -1,6 +1,5 @@
 package com.example.effectivemarvel
 
-import com.example.effectivemarvel.data.models.MarvelApiService
 import retrofit2.Retrofit
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
@@ -16,9 +15,6 @@ val marvelApiService by lazy {
         .addInterceptor { chain ->
             val originalRequest = chain.request()
             val newUrl = originalRequest.url.newBuilder()
-//                .addQueryParameter("apikey", YOUR_PUBLIC_API_KEY)
-//                .addQueryParameter("hash", generateHash())
-//                .addQueryParameter("ts", System.currentTimeMillis().toString())
                 .addQueryParameter("apikey", "5d103b1af37466dcc9374d4349a2c10f")
                 .addQueryParameter("hash", "c357422eaa6746cdbb3a9bdf4d4a0a69")
                 .addQueryParameter("ts", "1710250461")
