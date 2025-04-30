@@ -33,15 +33,21 @@ import com.example.effectivemarvel.ui.theme.White
 @Composable
 fun HeroScreen(navController: NavController, heroId: String, viewModel: MarvelCharacterViewModel) {
     val waitServer = remember { mutableStateOf(false) }
-    val timestamp = "1710250461"
-    val publicKey = "5d103b1af37466dcc9374d4349a2c10f"
-    val hashVal = "c357422eaa6746cdbb3a9bdf4d4a0a69"
+
+    val public_key = "1cb26014ffc866eed9b84770d32f5ff5"
+    val private_key = "06cb168af4b4d497a1911b59f2858816247d5bae"
+
+    val request_parts = generateMarvelApiRequestParts(public_key, private_key)
+
+    val timestamp = request_parts["ts"] as String
+
+    val hash_value = request_parts["hash"] as String
 
     LaunchedEffect(heroId) {
         viewModel.loadCharacterById(heroId.toInt(),
             timestamp,
-            publicKey,
-            hashVal)
+            public_key,
+            hash_value)
     }
 
     DisposableEffect(Unit) {
