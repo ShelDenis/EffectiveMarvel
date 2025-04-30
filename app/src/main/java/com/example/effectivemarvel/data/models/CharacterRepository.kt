@@ -54,5 +54,9 @@ class CharacterRepository(private val dao: CharacterDao) {
             }
         }
     }
+
+    suspend fun getCharacterById(id: Int): CharacterDataClass? {
+        return dao.findById(id)
+    }
 }
 

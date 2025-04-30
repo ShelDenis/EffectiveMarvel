@@ -95,9 +95,9 @@ fun HeroScreen(navController: NavController, heroId: String, viewModel: MarvelCh
                 )
         }
 
-        characterState.value?.data?.results?.firstOrNull()?.takeIf { errorState.value == null }?.let { character ->
+        characterState.value?.let { character ->
 
-            var imgRef = remember { character.thumbnail.path + "." + character.thumbnail.extension }
+            var imgRef = remember { character.thumbnail?.path + "." + character.thumbnail?.extension }
 
             Box(
                 modifier = Modifier.fillMaxSize()
@@ -125,7 +125,7 @@ fun HeroScreen(navController: NavController, heroId: String, viewModel: MarvelCh
                         .size(56.dp, 64.dp)
                         .padding(top = 16.dp, start = 16.dp)
                         .clickable {
-                            navController.navigate("choose_hero_screen")
+                            navController.popBackStack()
                         }
                 )
 
@@ -136,7 +136,7 @@ fun HeroScreen(navController: NavController, heroId: String, viewModel: MarvelCh
                         .align(Alignment.BottomStart)
                 ) {
                     Text(
-                        text = character.name,
+                        text = character.name.orEmpty(),
                         style = MaterialTheme.typography.bodyLarge,
                         color = White,
                     )
@@ -144,7 +144,7 @@ fun HeroScreen(navController: NavController, heroId: String, viewModel: MarvelCh
                     Spacer(modifier = Modifier.height(20.dp))
 
                     Text(
-                        text = character.description,
+                        text = character.description.orEmpty(),
                         style = MaterialTheme.typography.titleLarge,
                         color = White,
                         modifier = Modifier.fillMaxWidth(0.8f)
