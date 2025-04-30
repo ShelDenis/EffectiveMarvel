@@ -9,11 +9,6 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 class CharacterRepository(private val dao: CharacterDao) {
     suspend fun fetchAndSaveCharacters(nameFilter: String?) {
         try {
-//            val public_key = "5d103b1af37466dcc9374d4349a2c10f"
-//            val timestamp = "1710250461"
-//            val hash_value = "c357422eaa6746cdbb3a9bdf4d4a0a69"
-
-//            val response = marvelApi.getCharacters(timestamp, public_key, hash_value)
             val response = marvelApiService.getCharacters()
 
             val moshi = Moshi.Builder()
@@ -47,6 +42,17 @@ class CharacterRepository(private val dao: CharacterDao) {
 
     suspend fun insertAll(lst: List<CharacterDataClass>) {
         dao.insertAll(lst)
+    }
+
+    suspend fun insertOrUpdate(characters: List<CharacterDataClass>) {
+        characters.forEach { character ->
+            val existingRecord = dao.findById(character.id)
+            if (existingRecord == null) {
+                dao.insert(character)
+            } else {
+                dao.update(character)
+            }
+        }
     }
 }
 

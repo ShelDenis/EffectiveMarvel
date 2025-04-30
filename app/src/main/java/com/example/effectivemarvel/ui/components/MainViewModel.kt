@@ -59,7 +59,7 @@ class MarvelViewModel : ViewModel() {
                 if (response.isSuccessful && response.body() != null) {
                     val marvelCharactersResponse = response.body()!!
                     val characters = marvelCharactersResponse.data.results.map { it.asCharacterDataClass() }
-                    repository.insertAll(characters)
+                    repository.insertOrUpdate(characters)
                     _characters.emit(marvelCharactersResponse.data.results.toList())
                 } else {
                     _characters.emit(emptyList())
