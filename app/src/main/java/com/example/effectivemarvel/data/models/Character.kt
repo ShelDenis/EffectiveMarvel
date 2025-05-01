@@ -23,4 +23,12 @@ data class MarvelCharactersResponse(
     )
 }
 
+fun MarvelCharacter.asCharacterDataClass(): CharacterDataClass =
+    CharacterDataClass(id = id, name = name, description = description, thumbnail = thumbnail)
 
+fun MarvelCharacter.asCharacterUI(): CharacterUI = CharacterUI(
+        id = id,
+        name = name,
+        description = description,
+        img_path = thumbnail.path + "." + thumbnail.extension
+    )

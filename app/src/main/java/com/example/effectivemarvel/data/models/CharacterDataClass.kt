@@ -12,5 +12,20 @@ data class CharacterDataClass(
     @ColumnInfo(name = "thumbnail") val thumbnail: HeroImage?
 )
 
-fun MarvelCharacter.asCharacterDataClass(): CharacterDataClass =
-    CharacterDataClass(id = id, name = name, description = description, thumbnail = thumbnail)
+fun CharacterDataClass.asCharacterUI(): CharacterUI {
+    return CharacterUI(
+        id = id,
+        name = name.orEmpty(),
+        description = description.orEmpty(),
+        img_path = thumbnail?.path + "." + thumbnail?.extension
+    )
+}
+
+fun CharacterDataClass.asMarvelCharacter(): MarvelCharacter {
+    return MarvelCharacter(
+        id = id,
+        name = name.orEmpty(),
+        description = description.orEmpty(),
+        thumbnail = thumbnail!!
+    )
+}

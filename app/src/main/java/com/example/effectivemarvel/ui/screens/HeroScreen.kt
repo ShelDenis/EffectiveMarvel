@@ -103,7 +103,8 @@ fun HeroScreen(navController: NavController, heroId: String, viewModel: MarvelCh
 
         characterState.value?.let { character ->
 
-            var imgRef = remember { character.thumbnail?.path + "." + character.thumbnail?.extension }
+            val ch = character.asCharacterUI()
+            var imgRef = remember { ch.img_path }
 
             Box(
                 modifier = Modifier.fillMaxSize()
@@ -119,7 +120,7 @@ fun HeroScreen(navController: NavController, heroId: String, viewModel: MarvelCh
 
                 AsyncImage(
                     model = imgRef,
-                    contentDescription = character.name,
+                    contentDescription = ch.name,
                     contentScale = ContentScale.Crop,
                     modifier = Modifier.fillMaxSize().align(Alignment.Center)
                 )
@@ -142,7 +143,7 @@ fun HeroScreen(navController: NavController, heroId: String, viewModel: MarvelCh
                         .align(Alignment.BottomStart)
                 ) {
                     Text(
-                        text = character.name.orEmpty(),
+                        text = ch.name,
                         style = MaterialTheme.typography.bodyLarge,
                         color = White,
                     )
@@ -150,7 +151,7 @@ fun HeroScreen(navController: NavController, heroId: String, viewModel: MarvelCh
                     Spacer(modifier = Modifier.height(20.dp))
 
                     Text(
-                        text = character.description.orEmpty(),
+                        text = ch.description,
                         style = MaterialTheme.typography.titleLarge,
                         color = White,
                         modifier = Modifier.fillMaxWidth(0.8f)
