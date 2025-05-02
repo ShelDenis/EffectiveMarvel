@@ -22,7 +22,9 @@ class MarvelCharacterViewModel() : ViewModel() {
     fun loadCharacterById(id: Int, timestamp: String, public_key: String, hash: String) {
         viewModelScope.launch(Dispatchers.IO) {
             val charFromDB = repository.getCharacterById(id)
-            _characterState.emit(charFromDB)
+            if (charFromDB != null) {
+                _characterState.emit(charFromDB)
+            }
 
             try {
                 val call = marvelApi.getCharacterById(id, timestamp, public_key, hash)
@@ -39,7 +41,9 @@ class MarvelCharacterViewModel() : ViewModel() {
                     }
                 }
             } catch (e: Exception) {
-                _errorState.emit(e.message ?: "Something went wrong")
+                if (charFromDB == null) {
+                    _errorState.emit(e.message ?: "Something went wrong")
+                }
             }
         }
     }

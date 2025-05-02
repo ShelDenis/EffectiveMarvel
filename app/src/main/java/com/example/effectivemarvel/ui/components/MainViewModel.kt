@@ -69,7 +69,9 @@ class MarvelViewModel : ViewModel() {
                     _characters.emit(emptyList())
                 }
             } catch (e: Exception) {
-                _errorState.emit("Error! Check your Internet connection")
+                if (localCharacters.size == 0) {
+                    _errorState.emit("Error! Check your Internet connection")
+                }
             }
         }
     }

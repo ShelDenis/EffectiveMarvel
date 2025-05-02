@@ -59,7 +59,7 @@ fun ChooseHeroScreen(navController: NavController, viewModel: MarvelViewModel) {
     charList = characters.map { it.asCharacterUI() }
 
     if (charList.size > 0) {
-//        charList = charList.subList(0, 5)
+        charList = charList.subList(0, 5)
         waitServer.value = false
     } else if (errorState.value == null) {
         waitServer.value = true
@@ -123,7 +123,6 @@ fun ChooseHeroScreen(navController: NavController, viewModel: MarvelViewModel) {
                         val shape = RoundedCornerShape(10.dp)
                         val height = 550.dp
                         val imagePath = hero.img_path
-//                        val imagePath = hero.thumbnail.path + "." + hero.thumbnail.extension
 
                         Box(
                             modifier = Modifier
