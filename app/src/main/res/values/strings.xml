@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">EffectiveMarvel</string>
+    <string name="choose_hero">Выбери своего героя</string>
+    <string name="server_wait">Ожидание ответа сервера...</string>
+    <string name="update">Обновить</string>
+    <string name="turn_back">Вернуться назад</string>
 </resources>

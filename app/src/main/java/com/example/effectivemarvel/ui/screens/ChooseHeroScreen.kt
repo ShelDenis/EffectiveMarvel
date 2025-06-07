@@ -43,6 +43,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.material3.ProgressIndicatorDefaults
+import androidx.compose.ui.res.stringResource
 import kotlin.math.abs
 
 
@@ -98,7 +99,7 @@ fun ChooseHeroScreen(navController: NavController, viewModel: MarvelViewModel) {
             )
 
             Text(
-                text = "Choose your hero",
+                text = stringResource(R.string.choose_hero),
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.padding(vertical = 54.dp),
                 color = White
@@ -106,7 +107,7 @@ fun ChooseHeroScreen(navController: NavController, viewModel: MarvelViewModel) {
 
             if (waitServer.value && errorState.value == null) {
                 Text(
-                    text = "Waiting for response...",
+                    text = stringResource(R.string.server_wait),
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.padding(100.dp)
                         .align(Alignment.CenterHorizontally),
@@ -192,7 +193,7 @@ fun ChooseHeroScreen(navController: NavController, viewModel: MarvelViewModel) {
                         viewModel.clearErrorState()
                         viewModel.loadCharacters()
                     }) {
-                        Text(text = "Update", style = MaterialTheme.typography.titleLarge)
+                        Text(text = stringResource(R.string.update), style = MaterialTheme.typography.titleLarge)
                     }
                 }
             }

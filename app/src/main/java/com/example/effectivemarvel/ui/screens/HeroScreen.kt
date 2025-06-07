@@ -28,6 +28,7 @@ import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.effectivemarvel.ui.theme.White
+import androidx.compose.ui.res.stringResource
 
 
 @Composable
@@ -82,19 +83,19 @@ fun HeroScreen(navController: NavController, heroId: String, viewModel: MarvelCh
             ) {
                 Button(onClick = { navController.navigate("hero_screen_${heroId}") })
                 {
-                    Text(text = "Update", style = MaterialTheme.typography.titleLarge)
+                    Text(text = stringResource(R.string.update), style = MaterialTheme.typography.titleLarge)
                 }
 
                 Button(onClick = { navController.navigate("choose_hero_screen") })
                 {
-                    Text(text = "Turn back", style = MaterialTheme.typography.titleLarge)
+                    Text(text = stringResource(R.string.turn_back), style = MaterialTheme.typography.titleLarge)
                 }
             }
         }
 
         if (waitServer.value) {
             Text(
-                text="Waiting for response...",
+                text=stringResource(R.string.server_wait),
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.padding(100.dp)
                     .align(Alignment.CenterHorizontally)
@@ -111,7 +112,7 @@ fun HeroScreen(navController: NavController, heroId: String, viewModel: MarvelCh
             ) {
                 if (waitServer.value) {
                     Text(
-                        text = "Waiting for server response...",
+                        text = stringResource(R.string.server_wait),
                         style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier.padding(vertical = 74.dp),
                         color = White
