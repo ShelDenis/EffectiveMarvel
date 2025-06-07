@@ -103,7 +103,7 @@ fun HeroScreen(navController: NavController, heroId: String, viewModel: MarvelCh
 
         characterState.value?.let { character ->
 
-            val ch = character.asCharacterUI()
+            val ch = character.likeCharacterUI()
             var imgRef = remember { ch.img_path }
 
             Box(

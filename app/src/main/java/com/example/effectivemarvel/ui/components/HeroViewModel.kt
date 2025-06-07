@@ -27,7 +27,7 @@ class MarvelCharacterViewModel() : ViewModel() {
             }
 
             try {
-                val call = marvelApi.getCharacterById(id, timestamp, public_key, hash)
+                val call = NetworkModule.marvelApi.getCharacterById(id, timestamp, public_key, hash)
 
                 val response = call.execute()
 

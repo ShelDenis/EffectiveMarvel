@@ -18,7 +18,7 @@ fun Navigation(
             ChooseHeroScreen(navController, marvelViewModel)
         }
         composable(
-            route = "hero_screen_{heroId}",
+            route = "hero_screen/{heroId}",
             arguments = listOf(
                 navArgument(name = "heroId") {
                     type = NavType.StringType

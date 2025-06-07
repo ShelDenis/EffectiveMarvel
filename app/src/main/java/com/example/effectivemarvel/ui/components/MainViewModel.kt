@@ -44,7 +44,7 @@ class MarvelViewModel : ViewModel() {
     fun loadCharacters() {
         viewModelScope.launch(Dispatchers.IO) {
             val localCharacters = repository.getAllCharacters()
-            _characters.emit(localCharacters.map{it.asMarvelCharacter()})
+            _characters.emit(localCharacters.map{it.likeMarvelCharacter()})
 
             try {
                 val public_key = "1cb26014ffc866eed9b84770d32f5ff5"
@@ -56,7 +56,7 @@ class MarvelViewModel : ViewModel() {
 
                 val hash_value = request_parts["hash"] as String
 
-                val response = marvelApi.getCharacters(timestamp, public_key, hash_value).execute()
+                val response = NetworkModule.marvelApi.getCharacters(timestamp, public_key, hash_value).execute()
 
                 if (response.isSuccessful && response.body() != null) {
                     val marvelCharactersResponse = response.body()!!
@@ -64,7 +64,7 @@ class MarvelViewModel : ViewModel() {
                     repository.insertOrUpdate(characters)
 
                     val localCharacters = repository.getAllCharacters()
-                    _characters.emit(localCharacters.map{it.asMarvelCharacter()})
+                    _characters.emit(localCharacters.map{it.likeMarvelCharacter()})
                 } else {
                     _characters.emit(emptyList())
                 }

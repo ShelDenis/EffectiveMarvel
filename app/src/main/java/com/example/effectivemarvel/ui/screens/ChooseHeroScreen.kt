@@ -40,12 +40,11 @@ import androidx.compose.material3.Button
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.material3.ProgressIndicatorDefaults
 import kotlin.math.abs
 
-
-inline fun lerp(a: Float, b: Float, t: Float): Float {
-    return a + t * (b - a)
-}
 
 @Composable
 fun ChooseHeroScreen(navController: NavController, viewModel: MarvelViewModel) {
@@ -54,6 +53,13 @@ fun ChooseHeroScreen(navController: NavController, viewModel: MarvelViewModel) {
     val waitServer = remember { mutableStateOf(false) }
     val characters by viewModel.characters.collectAsState()
     val errorState = viewModel.errorState.collectAsState(null)
+
+    val progress = remember { mutableStateOf(0f) }
+
+    val animatedProgress by animateFloatAsState(
+        targetValue = progress.value,
+        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
+    )
 
     var charList: List<CharacterUI>
     charList = characters.map { it.asCharacterUI() }
@@ -106,6 +112,8 @@ fun ChooseHeroScreen(navController: NavController, viewModel: MarvelViewModel) {
                         .align(Alignment.CenterHorizontally),
                     color = White
                 )
+                CircularProgressIndicator()
+
             } else if (errorState.value == null && !waitServer.value) {
                 LazyRow(
                     modifier = Modifier.fillMaxWidth(),
@@ -132,7 +140,7 @@ fun ChooseHeroScreen(navController: NavController, viewModel: MarvelViewModel) {
                                 .fillMaxWidth()
                                 .background(White, shape = shape)
                                 .clickable {
-                                    navController.navigate("hero_screen_${hero.id}")
+                                    navController.navigate("hero_screen/${hero.id}")
                                 },
                             contentAlignment = Alignment.BottomStart
                         ) {
