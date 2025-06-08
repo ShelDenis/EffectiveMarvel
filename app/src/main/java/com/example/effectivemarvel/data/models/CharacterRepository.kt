@@ -7,12 +7,7 @@ class CharacterRepository(private val dao: CharacterDao) {
 
     suspend fun insertOrUpdate(characters: List<CharacterDataClass>) {
         characters.forEach { character ->
-            val existingRecord = dao.findById(character.id)
-            if (existingRecord == null) {
-                dao.insert(character)
-            } else {
-                dao.update(character)
-            }
+            dao.upsert(character)
         }
     }
 
