@@ -160,7 +160,7 @@ fun ChooseHeroScreen(navController: NavController, viewModel: MarvelViewModel) {
                                 Text(
                                     text = hero.name,
                                     style = MaterialTheme.typography.bodyLarge,
-                                    color = MaterialTheme.colorScheme.onBackground
+                                    color = White
                                 )
                             }
 
