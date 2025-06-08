@@ -44,11 +44,13 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.ui.res.stringResource
+import com.example.effectivemarvel.ui.components.getBGColor
 import kotlin.math.abs
 
 
 @Composable
 fun ChooseHeroScreen(navController: NavController, viewModel: MarvelViewModel) {
+    val customTypo = myCustomTypography()
     val lazyListState = rememberLazyListState()
     val snapBehavior = rememberSnapFlingBehavior(lazyListState = lazyListState)
     val waitServer = remember { mutableStateOf(false) }
@@ -79,7 +81,7 @@ fun ChooseHeroScreen(navController: NavController, viewModel: MarvelViewModel) {
         Surface(
             modifier = Modifier
                 .fillMaxSize()
-                .drawTwoColoredBackground(heroColor = Color.Red)
+                .drawTwoColoredBackground(heroColor = Color.Red, bgColor = getBGColor())
         ) {}
 
         Column(
@@ -102,7 +104,7 @@ fun ChooseHeroScreen(navController: NavController, viewModel: MarvelViewModel) {
                 text = stringResource(R.string.choose_hero),
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.padding(vertical = 54.dp),
-                color = White
+                color = MaterialTheme.colorScheme.onBackground
             )
 
             if (waitServer.value && errorState.value == null) {
@@ -111,7 +113,7 @@ fun ChooseHeroScreen(navController: NavController, viewModel: MarvelViewModel) {
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.padding(100.dp)
                         .align(Alignment.CenterHorizontally),
-                    color = White
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 CircularProgressIndicator()
 
@@ -158,7 +160,7 @@ fun ChooseHeroScreen(navController: NavController, viewModel: MarvelViewModel) {
                                 Text(
                                     text = hero.name,
                                     style = MaterialTheme.typography.bodyLarge,
-                                    color = White,
+                                    color = MaterialTheme.colorScheme.onBackground
                                 )
                             }
 
@@ -187,7 +189,7 @@ fun ChooseHeroScreen(navController: NavController, viewModel: MarvelViewModel) {
                         Text(
                             text = errorMessage,
                             style = MaterialTheme.typography.bodyLarge,
-                            color = White,
+                            color = MaterialTheme.colorScheme.onBackground,
                             modifier = Modifier.padding(16.dp)
                                 .align(Alignment.CenterHorizontally)
                         )
@@ -198,7 +200,9 @@ fun ChooseHeroScreen(navController: NavController, viewModel: MarvelViewModel) {
                         viewModel.clearErrorState()
                         viewModel.loadCharacters()
                     }) {
-                        Text(text = stringResource(R.string.update), style = MaterialTheme.typography.titleLarge)
+                        Text(text = stringResource(R.string.update),
+                            style = MaterialTheme.typography.titleLarge,
+                            color = MaterialTheme.colorScheme.onBackground)
                     }
                 }
             }

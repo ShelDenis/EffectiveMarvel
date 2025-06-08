@@ -1,15 +1,16 @@
 package com.example.effectivemarvel
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
-import com.example.effectivemarvel.ui.theme.Grey
+import com.example.effectivemarvel.ui.components.getBGColor
 
 
 @Composable
-fun Modifier.drawTwoColoredBackground(heroColor: Color): Modifier = this.then(
+fun Modifier.drawTwoColoredBackground(heroColor: Color, bgColor: Color): Modifier = this.then(
     Modifier.drawWithContent {
         val staticBackground = Path().apply {
             moveTo(0f, size.height)
@@ -28,7 +29,7 @@ fun Modifier.drawTwoColoredBackground(heroColor: Color): Modifier = this.then(
 
         drawContent()
 
-        drawPath(path = staticBackground, color = Grey)
+        drawPath(path = staticBackground, color = bgColor)
         drawPath(path = heroBackground, color = heroColor)
     }
 )
