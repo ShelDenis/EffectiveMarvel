@@ -5,10 +5,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.lifecycle.ViewModelProvider
 import com.example.effectivemarvel.ui.theme.EffectiveMarvelTheme
+//import androidx.compose.material3.enableEdgeToEdge
 
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+//        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
         DatabaseProvider.initDb(applicationContext)

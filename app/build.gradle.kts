@@ -54,7 +54,7 @@ android {
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:2.1.0")
     implementation("androidx.compose.ui:ui:1.6.0")
-    implementation("androidx.compose.material3:material3:1.1.2")
+//    implementation("androidx.compose.material3:material3:1.1.2")
 
     implementation("androidx.compose.material3:material3:1.4.0-alpha15")
 

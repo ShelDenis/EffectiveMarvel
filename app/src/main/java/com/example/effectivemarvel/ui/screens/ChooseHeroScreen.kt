@@ -127,7 +127,12 @@ fun ChooseHeroScreen(navController: NavController, viewModel: MarvelViewModel) {
                         val offset = lazyListState.layoutInfo.visibleItemsInfo.find { it.index == index }?.offset ?: 0
                         val centerOffset = ((screenWidthPx / 2) - (offset + screenWidthPx / 2)).coerceIn(-screenWidthPx / 2, screenWidthPx / 2)
 
-                        val scaleFactor = lerp(0.7f, 1f, 1f - abs(centerOffset) / (screenWidthPx / 2))
+
+                        var orientNum = 0.7f
+                        if (OrientationIsHorizontal()) {
+                            orientNum = 1f
+                        }
+                        val scaleFactor = lerp(orientNum, 1f, 1f - abs(centerOffset) / (screenWidthPx / 2))
 
                         val shape = RoundedCornerShape(10.dp)
                         val height = 550.dp
