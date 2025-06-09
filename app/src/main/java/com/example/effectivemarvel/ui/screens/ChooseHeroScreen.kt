@@ -51,19 +51,11 @@ import kotlin.math.abs
 
 @Composable
 fun ChooseHeroScreen(navController: NavController, viewModel: MarvelViewModel) {
-    val customTypo = myCustomTypography()
     val lazyListState = rememberLazyListState()
     val snapBehavior = rememberSnapFlingBehavior(lazyListState = lazyListState)
     val waitServer = remember { mutableStateOf(false) }
     val characters by viewModel.characters.collectAsState()
     val errorState = viewModel.errorState.collectAsState(null)
-
-    val progress = remember { mutableStateOf(0f) }
-
-    val animatedProgress by animateFloatAsState(
-        targetValue = progress.value,
-        animationSpec = ProgressIndicatorDefaults.ProgressAnimationSpec
-    )
 
     var charList: List<CharacterUI>
     charList = characters.map { it.asCharacterUI() }
@@ -132,7 +124,7 @@ fun ChooseHeroScreen(navController: NavController, viewModel: MarvelViewModel) {
 
 
                         var orientNum = 0.7f
-                        if (OrientationIsHorizontal()) {
+                        if (orientationIsHorizontal()) {
                             orientNum = 1f
                         }
                         val scaleFactor = lerp(orientNum, 1f, 1f - abs(centerOffset) / (screenWidthPx / 2))

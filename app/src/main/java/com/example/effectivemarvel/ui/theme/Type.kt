@@ -1,6 +1,5 @@
 package com.example.effectivemarvel
 
-import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
@@ -42,22 +41,6 @@ val Typography = Typography(
     )
     */
 )
-
-//val MyCustomTypography = Typography(
-//    bodyLarge = TextStyle(
-//        fontFamily = InterFont,
-//        fontWeight = FontWeight.Bold,
-//        fontSize = 28.sp,
-//        color = MaterialTheme.colorScheme.primary
-//    ),
-//
-//    titleLarge = TextStyle(
-//        fontFamily = InterFont,
-//        fontWeight = FontWeight.Normal,
-//        fontSize = 22.sp,
-//        color = MaterialTheme.colorScheme.primary
-//    )
-//)
 
 @Composable
 fun myCustomTypography(): Typography {

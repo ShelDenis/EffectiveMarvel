@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalConfiguration
 
 @Composable
-fun OrientationIsHorizontal(): Boolean {
+fun orientationIsHorizontal(): Boolean {
     val config = LocalConfiguration.current
     return config.orientation == Configuration.ORIENTATION_LANDSCAPE
 }

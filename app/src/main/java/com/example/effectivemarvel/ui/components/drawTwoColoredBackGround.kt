@@ -1,12 +1,10 @@
 package com.example.effectivemarvel
 
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
-import com.example.effectivemarvel.ui.components.getBGColor
 
 
 @Composable
