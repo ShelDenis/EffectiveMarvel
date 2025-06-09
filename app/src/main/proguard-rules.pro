@@ -22,6 +22,8 @@
 
 -keep class androidx.room.** { *; }
 -keep class * extends androidx.room.RoomDatabase
+-keep class * extends androidx.room.Migration
+-keep *; @androidx.room.* {*;}
 -keep class * { @androidx.room.* <fields>; }
 -keep class * { @androidx.room.* <methods>; }
 -keepclassmembers class * {
