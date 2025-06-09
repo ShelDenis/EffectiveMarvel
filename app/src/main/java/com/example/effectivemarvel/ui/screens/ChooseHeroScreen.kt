@@ -44,6 +44,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.material3.ProgressIndicatorDefaults
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import com.example.effectivemarvel.ui.components.getBGColor
 import kotlin.math.abs
 
@@ -160,7 +161,8 @@ fun ChooseHeroScreen(navController: NavController, viewModel: MarvelViewModel) {
                                 Text(
                                     text = hero.name,
                                     style = MaterialTheme.typography.bodyLarge,
-                                    color = White
+                                    color = White,
+                                    textAlign = TextAlign.Start
                                 )
                             }
 

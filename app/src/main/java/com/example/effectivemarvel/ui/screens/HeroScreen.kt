@@ -28,6 +28,7 @@ import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.effectivemarvel.ui.theme.White
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.res.stringResource
 
 
@@ -115,7 +116,8 @@ fun HeroScreen(navController: NavController, heroId: String, viewModel: MarvelCh
                         text = stringResource(R.string.server_wait),
                         style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier.padding(vertical = 74.dp),
-                        color = White
+                        color = White,
+                        textAlign = TextAlign.Start
                     )
                 }
 
@@ -147,6 +149,7 @@ fun HeroScreen(navController: NavController, heroId: String, viewModel: MarvelCh
                         text = ch.name,
                         style = MaterialTheme.typography.bodyLarge,
                         color = White,
+                        textAlign = TextAlign.Start
                     )
 
                     Spacer(modifier = Modifier.height(20.dp))
@@ -155,7 +158,8 @@ fun HeroScreen(navController: NavController, heroId: String, viewModel: MarvelCh
                         text = ch.description,
                         style = MaterialTheme.typography.titleLarge,
                         color = White,
-                        modifier = Modifier.fillMaxWidth(0.8f)
+                        modifier = Modifier.fillMaxWidth(0.8f),
+                        textAlign = TextAlign.Start
                     )
                 }
             }
