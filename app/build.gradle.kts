@@ -31,6 +31,16 @@ android {
             )
         }
     }
+
+    applicationVariants.configureEach {
+        outputs.all {
+            this as com.android.build.gradle.internal.api.ApkVariantOutputImpl
+            if (buildType.name == "release") {
+                outputFileName = "${defaultConfig.applicationId}-${defaultConfig.versionName}-${defaultConfig.versionCode}-release.apk"
+            }
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -54,7 +64,8 @@ android {
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:2.1.0")
     implementation("androidx.compose.ui:ui:1.6.0")
-    implementation("androidx.compose.material3:material3:1.1.2")
+
+    implementation("androidx.compose.material3:material3:1.4.0-alpha15")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

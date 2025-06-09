@@ -28,6 +28,8 @@ import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.effectivemarvel.ui.theme.White
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.res.stringResource
 
 
 @Composable
@@ -82,19 +84,19 @@ fun HeroScreen(navController: NavController, heroId: String, viewModel: MarvelCh
             ) {
                 Button(onClick = { navController.navigate("hero_screen_${heroId}") })
                 {
-                    Text(text = "Update", style = MaterialTheme.typography.titleLarge)
+                    Text(text = stringResource(R.string.update), style = MaterialTheme.typography.titleLarge)
                 }
 
                 Button(onClick = { navController.navigate("choose_hero_screen") })
                 {
-                    Text(text = "Turn back", style = MaterialTheme.typography.titleLarge)
+                    Text(text = stringResource(R.string.turn_back), style = MaterialTheme.typography.titleLarge)
                 }
             }
         }
 
         if (waitServer.value) {
             Text(
-                text="Waiting for response...",
+                text=stringResource(R.string.server_wait),
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.padding(100.dp)
                     .align(Alignment.CenterHorizontally)
@@ -103,7 +105,7 @@ fun HeroScreen(navController: NavController, heroId: String, viewModel: MarvelCh
 
         characterState.value?.let { character ->
 
-            val ch = character.asCharacterUI()
+            val ch = character.likeCharacterUI()
             var imgRef = remember { ch.img_path }
 
             Box(
@@ -111,10 +113,11 @@ fun HeroScreen(navController: NavController, heroId: String, viewModel: MarvelCh
             ) {
                 if (waitServer.value) {
                     Text(
-                        text = "Waiting for server response...",
+                        text = stringResource(R.string.server_wait),
                         style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier.padding(vertical = 74.dp),
-                        color = White
+                        color = White,
+                        textAlign = TextAlign.Start
                     )
                 }
 
@@ -146,6 +149,7 @@ fun HeroScreen(navController: NavController, heroId: String, viewModel: MarvelCh
                         text = ch.name,
                         style = MaterialTheme.typography.bodyLarge,
                         color = White,
+                        textAlign = TextAlign.Start
                     )
 
                     Spacer(modifier = Modifier.height(20.dp))
@@ -154,7 +158,8 @@ fun HeroScreen(navController: NavController, heroId: String, viewModel: MarvelCh
                         text = ch.description,
                         style = MaterialTheme.typography.titleLarge,
                         color = White,
-                        modifier = Modifier.fillMaxWidth(0.8f)
+                        modifier = Modifier.fillMaxWidth(0.8f),
+                        textAlign = TextAlign.Start
                     )
                 }
             }

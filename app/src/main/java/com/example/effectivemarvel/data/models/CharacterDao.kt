@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import androidx.room.Upsert
 
 @Dao
 interface CharacterDao {
@@ -29,6 +30,9 @@ interface CharacterDao {
 
     @Update
     suspend fun update(character: CharacterDataClass)
+
+    @Upsert
+    suspend fun upsert(character: CharacterDataClass)
 
     @Delete
     fun delete(character: CharacterDataClass)

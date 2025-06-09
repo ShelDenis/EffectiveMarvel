@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">EffectiveMarvel</string>
+    <string name="choose_hero">Choose your hero</string>
+    <string name="server_wait">Waiting for server response...</string>
+    <string name="update">Update</string>
+    <string name="turn_back">Turn back</string>
+</resources>

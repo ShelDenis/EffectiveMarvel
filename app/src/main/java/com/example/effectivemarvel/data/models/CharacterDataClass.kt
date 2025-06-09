@@ -12,7 +12,7 @@ data class CharacterDataClass(
     @ColumnInfo(name = "thumbnail") val thumbnail: HeroImage?
 )
 
-fun CharacterDataClass.asCharacterUI(): CharacterUI {
+fun CharacterDataClass.likeCharacterUI(): CharacterUI {
     return CharacterUI(
         id = id,
         name = name.orEmpty(),
@@ -21,7 +21,7 @@ fun CharacterDataClass.asCharacterUI(): CharacterUI {
     )
 }
 
-fun CharacterDataClass.asMarvelCharacter(): MarvelCharacter {
+fun CharacterDataClass.likeMarvelCharacter(): MarvelCharacter {
     return MarvelCharacter(
         id = id,
         name = name.orEmpty(),
